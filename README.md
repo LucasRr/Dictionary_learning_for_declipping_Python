@@ -27,10 +27,7 @@ This code performs declipping using 4 different approaches:
 * **Consistent IHT:** performs consistent IHT using a fixed DCT dictionary \[1\]
 * **Consistent dictionary learning:** performs consistent dictionary learning using the algorithm proposed in \[2\]
 
-You can see an example of declipping a glockspiel signal by running:
-```
-run Experiment/Declip_1_signal.m
-```
+Run `declip_1_signal.py` for an example.
 
 ## References:
 \[1\]: Consistent iterative hard thresholding for signal declipping, 
