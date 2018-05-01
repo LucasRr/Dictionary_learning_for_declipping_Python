@@ -47,7 +47,7 @@ plt.close('all')
 #%% Parameters
 
 param = {}
-param["N"] = 256  # size of frame
+param["N"] = 256  # size of framespel
 param["hop"] = 0.25*param["N"]  # hop size
 param["redundancyFactor"] = 2  # redundancy of dictionary
 param["M"] = param["N"] * param["redundancyFactor"]  # number of atoms
@@ -58,7 +58,7 @@ M = param["M"]
 
 #%% Generate DCT dictionary:
 
-D_DCT = u.DCT_dictionary(param);
+D_DCT = u.DCT_dictionary(param)
 
 #%% Read signal
 
@@ -66,19 +66,19 @@ filename = 'glockenspiel.wav'
 
 fs, x = scipy.io.wavfile.read(filename)
 
-x = x/np.max(abs(x));  # normalize signal
+x = x/np.max(abs(x))  # normalize signal
 
 # plt.plot(x)
 
 #%% Clip signal:
 
-SNRInput = 5;  # desired input SNR
+SNRInput = 5  # desired input SNR
 y, ClippingLevel = u.clip_signal(x, SNRInput)
 
 #plt.plot(x)
 #plt.plot(y)
 
-SNRin = u.SNR(x,y);
+SNRin = u.SNR(x,y)
 print('Input SNR: %.3f dB' % SNRin)
  
 #%% Decompose signal into overlapping time-frames:
@@ -94,7 +94,7 @@ x = x[:L]
 #%% Detect reliable samples:
 
 # Detect clipping level:
-ClippingLevel = max(abs(y));
+ClippingLevel = max(abs(y))
 
 reliable_samples = np.logical_and(y<ClippingLevel,y>-ClippingLevel)
 reliable_samples_mat = u.binary_vec2mat(reliable_samples,param)
@@ -102,7 +102,7 @@ reliable_samples_mat = u.binary_vec2mat(reliable_samples,param)
 clipped_samples = np.logical_not(reliable_samples)
 clipped_samples_mat = np.logical_not(reliable_samples_mat)
 
-SNRin_clipped = u.SNR(x[clipped_samples],y[clipped_samples]);
+SNRin_clipped = u.SNR(x[clipped_samples],y[clipped_samples])
 
 print('%.1f percent of clipped samples' % (sum(1*clipped_samples)/x.size*100))
 
@@ -258,7 +258,7 @@ plt.tight_layout()
 samples = np.arange(46800,46900) 
 
 # percentage of missing samples:
-# sum(~reliable_samples(samples))/length(samples)*100;
+# sum(~reliable_samples(samples))/length(samples)*100
 
 f, axarr = plt.subplots(2, 2)
 axarr[0, 0].plot(samples, x[samples], label="clean")
