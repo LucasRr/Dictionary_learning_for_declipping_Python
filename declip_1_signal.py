@@ -26,7 +26,7 @@
 
  Contact: lucas.rencker@surrey.ac.uk
                     
- Last update: 28/03/18
+ Last update: 01/05/18
  
  This code is distributed under the terms of the GNU Public License version 3 
  (http://www.gnu.org/licenses/gpl.txt).
@@ -113,7 +113,7 @@ print('IHT for inpainting:')
 alg_param={}
 alg_param["K"] = 32 # number of non-zero coefficients
 alg_param["Nit"] = 50 # max number of iterations
-alg_param["loud"] = 1 # 1 to print the results
+alg_param["loud"] = 0 # 1 to print the results
 alg_param["A_init"] = np.zeros((M,Nframes)) # initialize sparse matrix
 
 A, cost = solvers.IHT_inpainting(Y,clipped_samples_mat,D_DCT,alg_param)
@@ -121,8 +121,8 @@ A, cost = solvers.IHT_inpainting(Y,clipped_samples_mat,D_DCT,alg_param)
 X_est_IHT = D_DCT@A
 x_est_IHT = u.frames2signal(X_est_IHT,param)
 
-plt.plot(np.log(cost))
-plt.title('Objective')
+#plt.plot(np.log(cost))
+#plt.title('Objective')
 
 SNRout_IHT = u.SNR(x,x_est_IHT)
 SNRout_clipped = u.SNR(x[clipped_samples],x_est_IHT[clipped_samples])
@@ -145,7 +145,7 @@ print('Dictionary learning for inpainting:')
 
 # DL parameters:
 paramDL={}
-paramDL["K"] = 8 
+paramDL["K"] = 32 # number of non-zero coefficients 
 paramDL["Nit"] = 50 # number of iterations
 paramDL["Nit_sparse_coding"] = 20 # number of iterations sparse coding step
 paramDL["Nit_dict_update"] = 20 # number of iterations dictionary update step
@@ -159,9 +159,9 @@ D_DL, A, cost = solvers.DictionaryLearning_inpainting(Y,clipped_samples_mat,para
 X_est_DL = D_DL@A
 x_est_DL = u.frames2signal(X_est_DL,param)
 
-plt.figure()
-plt.plot(np.log(cost))
-plt.title('Objective')
+#plt.figure()
+#plt.plot(np.log(cost))
+#plt.title('Objective')
 
 SNRout_DL = u.SNR(x,x_est_DL)
 SNRout_clipped = u.SNR(x[clipped_samples],x_est_DL[clipped_samples])
@@ -194,9 +194,9 @@ A, cost = solvers.consistentIHT(Y,clipped_samples_mat,D_DCT,alg_param)
 X_est_consIHT = D_DCT@A
 x_est_consIHT = u.frames2signal(X_est_consIHT,param)
 
-plt.figure()
-plt.plot(np.log(cost))
-plt.title('Objective')
+#plt.figure()
+#plt.plot(np.log(cost))
+#plt.title('Objective')
 
 SNRout_consIHT = u.SNR(x,x_est_consIHT)
 SNRout_clipped = u.SNR(x[clipped_samples],x_est_consIHT[clipped_samples])
@@ -233,9 +233,9 @@ D_consDL, A, cost = solvers.consistentDictionaryLearning(Y,clipped_samples_mat,p
 X_est_consDL = D_consDL@A
 x_est_consDL = u.frames2signal(X_est_consDL,param)
 
-plt.figure()
-plt.plot(np.log(cost))
-plt.title('Objective')
+#plt.figure()
+#plt.plot(np.log(cost))
+#plt.title('Objective')
 
 SNRout_consDL = u.SNR(x,x_est_consDL)
 SNRout_clipped = u.SNR(x[clipped_samples],x_est_consDL[clipped_samples])
@@ -254,6 +254,7 @@ plt.tight_layout()
 
 #%% Plots
 
+# "zoom-in" to particular area:
 samples = np.arange(46800,46900) 
 
 # percentage of missing samples:
@@ -269,18 +270,20 @@ axarr[0, 1].plot(samples, x[samples], label="clean")
 axarr[0, 1].plot(samples, x_est_DL[samples], label="estimate")
 axarr[0, 1].plot(samples, y[samples], label="clipped")
 axarr[0, 1].set_title(('DL for inpainting: SNR = %.2f dB' % SNRout_DL))
-axarr[0, 0].legend()
+axarr[0, 1].legend()
 axarr[1, 0].plot(samples, x[samples], label="clean")
 axarr[1, 0].plot(samples, x_est_consIHT[samples], label="estimate")
 axarr[1, 0].plot(samples, y[samples], label="clipped")
 axarr[1, 0].set_title(('Consistent IHT: SNR = %.2f dB' % SNRout_consIHT))
-axarr[0, 0].legend()
+axarr[1, 0].legend()
 axarr[1, 1].plot(samples, x[samples], label="clean")
 axarr[1, 1].plot(samples, x_est_consDL[samples], label="estimate")
 axarr[1, 1].plot(samples, y[samples], label="clipped")
 axarr[1, 1].set_title(('Consistent dictionary learning: SNR = %.2f dB' % SNRout_consDL))
-axarr[0, 0].legend()
+axarr[1, 1].legend()
 plt.tight_layout()
+
+plt.show()
 
 #%% Save results
  
