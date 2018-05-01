@@ -37,10 +37,10 @@ import matplotlib.pyplot as plt
 import scipy.io.wavfile
 import solvers
 import utils as u
-import importlib
 
-importlib.reload(solvers)
-importlib.reload(u)
+#import importlib
+#importlib.reload(solvers)
+#importlib.reload(u)
 
 plt.close('all')
 
