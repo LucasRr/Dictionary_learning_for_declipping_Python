@@ -47,7 +47,7 @@ plt.close('all')
 #%% Parameters
 
 param = {}
-param["N"] = 256  # size of framespel
+param["N"] = 256  # size of frames
 param["hop"] = 0.25*param["N"]  # hop size
 param["redundancyFactor"] = 2  # redundancy of dictionary
 param["M"] = param["N"] * param["redundancyFactor"]  # number of atoms
@@ -181,7 +181,7 @@ plt.tight_layout()
 
 #%% Reconstruct signal using consistent IHT:
 
-print('consistent IHT for inpainting:')
+print('consistent IHT for declipping:')
 
 alg_param={}
 alg_param["K"] = 32 # number of non-zero coefficients
